@@ -1,87 +1,181 @@
 <!DOCTYPE html>
 <html>
 <head>
-    <title>Feedback Form</title>
+    <title>Feedback Dashboard</title>
 
     <style>
-    body {
-        font-family: 'Segoe UI', sans-serif;
-        background: #f4f6f8;
-        margin: 0;
-        padding: 20px;
-    }
+        * {
+            box-sizing: border-box;
+            font-family: 'Segoe UI', sans-serif;
+        }
 
-    .container {
-        background: white;
-        padding: 30px;
-        max-width: 400px;
-        margin: 40px auto; /* ✅ centers vertically properly */
-        border-radius: 10px;
-        box-shadow: 0 8px 25px rgba(0,0,0,0.1);
-    }
+        body {
+            margin: 0;
+            background: #f1f3f6;
+            padding: 20px;
+        }
 
-    h2 {
-        text-align: center;
-        margin-bottom: 20px;
-    }
+        .wrapper {
+            max-width: 900px;
+            margin: auto;
+        }
 
-    input, textarea {
-        width: 100%;
-        padding: 10px;
-        margin: 8px 0;
-        border: 1px solid #ddd;
-        border-radius: 6px;
-        outline: none;
-        font-size: 14px;
-    }
+        h1 {
+            text-align: center;
+            margin-bottom: 30px;
+            color: #111;
+        }
 
-    input:focus, textarea:focus {
-        border-color: #111;
-    }
+        /* CARD */
+        .card {
+            background: #fff;
+            padding: 20px;
+            border-radius: 12px;
+            margin-bottom: 25px;
+            box-shadow: 0 5px 20px rgba(0,0,0,0.08);
+        }
 
-    button {
-        width: 100%;
-        padding: 10px;
-        background: #111;
-        color: white;
-        border: none;
-        border-radius: 6px;
-        cursor: pointer;
-        margin-top: 10px;
-    }
+        /* FORM */
+        input, textarea {
+            width: 100%;
+            padding: 12px;
+            margin: 8px 0;
+            border: 1px solid #ddd;
+            border-radius: 8px;
+            outline: none;
+            font-size: 14px;
+            transition: 0.2s;
+        }
 
-    button:hover {
-        background: #333;
-    }
+        input:focus, textarea:focus {
+            border-color: #111;
+        }
 
-    .success {
-        text-align: center;
-        color: green;
-        margin-bottom: 10px;
-        font-size: 14px;
-    }
+        button {
+            width: 100%;
+            padding: 12px;
+            background: #111;
+            color: white;
+            border: none;
+            border-radius: 8px;
+            cursor: pointer;
+            font-size: 15px;
+            transition: 0.2s;
+        }
 
-</style>
+        button:hover {
+            background: #333;
+        }
+
+        /* FEEDBACK LIST */
+        .feedback-item {
+            padding: 15px;
+            border-radius: 10px;
+            border: 1px solid #eee;
+            margin-top: 12px;
+            position: relative;
+            transition: 0.2s;
+        }
+
+        .feedback-item:hover {
+            box-shadow: 0 4px 12px rgba(0,0,0,0.06);
+        }
+
+        .name {
+            font-weight: 600;
+            color: #111;
+        }
+
+        .email {
+            font-size: 13px;
+            color: #777;
+        }
+
+        .message {
+            margin-top: 8px;
+            color: #444;
+        }
+
+        /* DELETE BUTTON */
+        .delete-form {
+            position: absolute;
+            top: 10px;
+            right: 10px;
+        }
+
+        .delete-btn {
+            background: #e11d48;
+            border: none;
+            padding: 5px 10px;
+            color: white;
+            border-radius: 6px;
+            cursor: pointer;
+            font-size: 12px;
+        }
+
+        .delete-btn:hover {
+            background: #be123c;
+        }
+
+        /* EMPTY STATE */
+        .empty {
+            text-align: center;
+            color: #777;
+            padding: 10px;
+        }
+
+        /* RESPONSIVE */
+        @media (max-width: 600px) {
+            .wrapper {
+                padding: 10px;
+            }
+        }
+    </style>
 </head>
+
 <body>
 
-<div class="container">
+<div class="wrapper">
 
-    <h2>Feedback Form</h2>
+    <h1>Feedback Dashboard</h1>
 
-    {% if success %}
-        <p class="success">✅ Feedback submitted successfully!</p>
-    {% endif %}
+    <!-- FORM -->
+    <div class="card">
+        <h2>Submit Feedback</h2>
 
-    <form method="POST">
-        {% csrf_token %}
+        <form method="POST">
+            {% csrf_token %}
 
-        <input type="text" name="name" placeholder="Your Name" required>
-        <input type="email" name="email" placeholder="Your Email" required>
-        <textarea name="message" rows="4" placeholder="Your Feedback" required></textarea>
+            <input type="text" name="name" placeholder="Your Name" required>
+            <input type="email" name="email" placeholder="Your Email" required>
+            <textarea name="message" rows="4" placeholder="Your Feedback" required></textarea>
 
-        <button type="submit">Submit</button>
-    </form>
+            <button type="submit">Submit Feedback</button>
+        </form>
+    </div>
+
+    <!-- FEEDBACK LIST -->
+    <div class="card">
+        <h2>All Feedback</h2>
+
+        {% for fb in feedbacks %}
+            <div class="feedback-item">
+
+                <form action="{% url 'delete' fb.id %}" method="POST" class="delete-form">
+                    {% csrf_token %}
+                    <button class="delete-btn">Delete</button>
+                </form>
+
+                <div class="name">{{ fb.name }}</div>
+                <div class="email">{{ fb.email }}</div>
+                <div class="message">{{ fb.message }}</div>
+
+            </div>
+        {% empty %}
+            <div class="empty">No feedback submitted yet.</div>
+        {% endfor %}
+
+    </div>
 
 </div>
 

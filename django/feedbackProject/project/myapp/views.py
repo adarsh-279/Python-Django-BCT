@@ -1,4 +1,4 @@
-from django.shortcuts import render
+from django.shortcuts import render, redirect
 from .models import Feedback
 
 def home(request):
@@ -13,6 +13,14 @@ def home(request):
             message=message
         )
 
-        return render(request, 'home.html', {'success': True})
+        return redirect('home')   # reload page
 
-    return render(request, 'home.html')
+    feedbacks = Feedback.objects.all().order_by('-id')
+
+    return render(request, 'home.html', {'feedbacks': feedbacks})
+
+
+def delete_feedback(request, id):
+    feedback = Feedback.objects.get(id=id)
+    feedback.delete()
+    return redirect('home')
