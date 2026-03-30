@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Library Dashboard</title>
+
+    <style>
+        body {
+            font-family: Arial;
+            background: #f4f6f8;
+            text-align: center;
+            padding: 50px;
+        }
+
+        h1 {
+            margin-bottom: 30px;
+        }
+
+        .btn {
+            display: inline-block;
+            padding: 15px 25px;
+            margin: 10px;
+            background: #333;
+            color: white;
+            text-decoration: none;
+            border-radius: 8px;
+        }
+
+        .btn:hover {
+            background: #555;
+        }
+    </style>
+</head>
+<body>
+
+    <h1>📚 Library Management System</h1>
+
+    <a href="/add-book/" class="btn">Add Book</a>
+    <a href="/add-student/" class="btn">Add Student</a>
+    <a href="/books/" class="btn">View Books</a>
+    <a href="/students/" class="btn">View Students</a>
+    <a href="{% url 'add_student' %}">Add Student</a>
+
+</body>
+</html>

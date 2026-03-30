@@ -1,0 +1,108 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Add Student</title>
+
+    <style>
+        body {
+            font-family: 'Segoe UI', sans-serif;
+            background: linear-gradient(135deg, #667eea, #764ba2);
+            margin: 0;
+        }
+
+        .container {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+        }
+
+        .form-box {
+            background: white;
+            padding: 30px;
+            width: 400px;
+            border-radius: 12px;
+            box-shadow: 0 15px 35px rgba(0,0,0,0.2);
+        }
+
+        h2 {
+            text-align: center;
+            margin-bottom: 20px;
+        }
+
+        label {
+            font-weight: 500;
+        }
+
+        input {
+            width: 100%;
+            padding: 10px;
+            margin: 8px 0 15px;
+            border-radius: 6px;
+            border: 1px solid #ddd;
+            outline: none;
+        }
+
+        input:focus {
+            border-color: #667eea;
+        }
+
+        button {
+            width: 100%;
+            padding: 10px;
+            background: #111;
+            color: white;
+            border: none;
+            border-radius: 6px;
+            cursor: pointer;
+        }
+
+        button:hover {
+            background: #333;
+        }
+
+        .nav {
+            text-align: center;
+            margin-bottom: 15px;
+        }
+
+        .nav a {
+            text-decoration: none;
+            margin: 0 10px;
+            color: #555;
+            font-size: 14px;
+        }
+    </style>
+</head>
+<body>
+
+<div class="container">
+    <div class="form-box">
+
+        <div class="nav">
+            <a href="{% url 'home' %}">Home</a>
+            <a href="{% url 'view_students' %}">View Students</a>
+        </div>
+
+        <h2>👨‍🎓 Add Student</h2>
+
+        <form method="POST">
+            {% csrf_token %}
+
+            <label>Name</label>
+            {{ form.name }}
+
+            <label>Email</label>
+            {{ form.email }}
+
+            <label>Student ID</label>
+            {{ form.student_id }}
+
+            <button type="submit">Add Student</button>
+        </form>
+
+    </div>
+</div>
+
+</body>
+</html>
